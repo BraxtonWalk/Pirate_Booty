@@ -20,6 +20,7 @@ public class Model {
             System.out.println("client> success!");
 
             try {
+
                 Connection conn = DriverManager.getConnection("jdbc:sqlite:CoinFlipUsers.db"); //connecting to the database
                 System.out.println("Connected to Database");
 
@@ -32,13 +33,15 @@ public class Model {
                 conn.close();
 
             } catch (SQLException | NumberFormatException | NullPointerException e) { //catching exceptions
+                e.printStackTrace();
                 JFrame error = new JFrame();
-                JOptionPane.showMessageDialog(error, "Error Connecting to Database");
+                JOptionPane.showMessageDialog(error, "Error connecting to database, close app and try again");
             }
 
         }catch(IOException e){
+            e.printStackTrace();
             JFrame error = new JFrame();
-            JOptionPane.showMessageDialog(error, "Error Connecting to Server");
+            JOptionPane.showMessageDialog(error, "Error connecting to server, close app and try again");
         }
 
     }
