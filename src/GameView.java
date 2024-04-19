@@ -14,7 +14,10 @@ public class GameView extends User {
     private JButton betButton = new JButton("Bet");
     private JButton menu = new JButton("Menu");
     private JTextField betAmount = new JTextField(9);
-    private String[] options = {"Options","Heads","Tails"};
+    private String[] options = {"Heads","Tails"};
+
+    Image heads = (new ImageIcon("quarter-coin-head.jpg")).getImage();
+    Image tails = (new ImageIcon("Indiana-quarter.jpg")).getImage();
 
     GameView(){
 
@@ -72,5 +75,11 @@ public class GameView extends User {
         return betAmount.getText();
     }
 
+    public String getBetAmount() {
+        return betAmount.getText();
+    }
 
+    public String getUserChoice() {
+        return userChoice.getSelectedItem().toString();
+    }
 }
