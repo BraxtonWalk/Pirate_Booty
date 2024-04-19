@@ -19,24 +19,6 @@ public class Model {
             socket = new Socket("127.0.0.1", 5000); //connecting to the port on the server
             System.out.println("client> success!");
 
-            try {
-
-                Connection conn = DriverManager.getConnection("jdbc:sqlite:CoinFlipUsers.db"); //connecting to the database
-                System.out.println("Connected to Database");
-
-                String cmd = "CREATE TABLE IF NOT EXISTS users (" +  //creating a table for storing the data
-                        "username String PRIMARY KEY," +
-                        "password STRING," +
-                        "currency INTEGER);";
-
-                conn.createStatement().executeUpdate(cmd); //executing the create table command
-                conn.close();
-
-            } catch (SQLException | NumberFormatException | NullPointerException e) { //catching exceptions
-                e.printStackTrace();
-                JFrame error = new JFrame();
-                JOptionPane.showMessageDialog(error, "Error connecting to database, close app and try again");
-            }
 
         }catch(IOException e){
             e.printStackTrace();

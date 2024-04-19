@@ -3,12 +3,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Controller {
-    //GameMenuView gameMenuView = new GameMenuView();
 
     private Model model = new Model();
     private CreateAccountView createAccountView = new CreateAccountView();
     private LoginAccountView loginAccountView = new LoginAccountView();
+    private GameView gameView = new GameView();
     private GameMenuView gameMenuView = new GameMenuView();
+    private ScoreboardView scoreboardView = new ScoreboardView();
+    private User user = new User();
 
 
 
@@ -19,54 +21,13 @@ public class Controller {
         createAccountView.setLoginMenuButtonActionListener(new loginMenuButtonActionListener());
         loginAccountView.setLoginButtonActionListener(new loginButtonActionListener());
         loginAccountView.setCreateAccountMenuActionListener(new createAccountMenuActionListener());
+        gameMenuView.setExitActionListener(new exitActionListener());
+        gameMenuView.setGameActionListener(new gameActionListener());
+        gameMenuView.setScoreboardActionListener(new scoreboardActionListener());
+        scoreboardView.setMenuActionListener(new menuActionListener());
+        gameView.setMenuButtonListener(new menuActionListener_game());
 
     }
-    /*class AddMathActionListener implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e){
-            double num1 = 0;//stores first num
-            double num2 = 0;//stores second num
-            int arraylength; // stores length of array
-            String operation = null;
-            //makes temp for input
-            boolean errorCheck = true;
-            boolean operationCheck = false;
-            try {
-                String s = gameMenuView.getClientText();
-                String[] words = s.trim().split(" ");
-                arraylength = words.length;
-                if(arraylength != 3){
-                    errorCheck = false;
-
-                }else{
-                    operation = words[1];
-                    num1 = Integer.parseInt(words[0]);
-                    num2 = Integer.parseInt(words[2]);
-                }
-
-                //checks for correct operation
-                if(operation.equals("+") ||operation.equals("-") ||operation.equals("*") ||operation.equals("/") ||operation.equals("%")||operation.equals("^") ){
-                    operationCheck = true;
-                }
-            } catch( NullPointerException | NumberFormatException | ArrayIndexOutOfBoundsException ex ){//catches error and updates errorAge
-                errorCheck = false;
-            }
-            //checks to see if age or name is empty and if age has characters in it
-           /* if( (gameMenuView.clientText.getText().isEmpty()) || !errorCheck || !operationCheck) {
-                gameMenuView.serverText.setText("ERROR: BAD INPUT");
-            }else {
-
-                model.client(gameMenuView.getClientText());
-                gameMenuView.serverText.setText(model.serverData());
-
-
-            }
-
-
-
-        }
-
-    }*/
 
 
     class createButtonActionListener implements ActionListener { //create button action listener
@@ -74,6 +35,7 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             String username = createAccountView.getUsername().getText();
             String password = createAccountView.getPassword().getText();
+
 
             System.out.println("Username: " + username + " / Password: " + password);
 
@@ -87,7 +49,16 @@ public class Controller {
             else{
                 System.out.println("You entered a username and password");
 
+                gameView.setPlayerName(username + ": ");
+                gameView.setCurrency("500");
+                //TODO fix this above code to actually set the currency correctly (idk why it isn't working, maybe something with the flow layout in gameview?)
 
+
+
+
+                createAccountView.createAccount.setVisible(false);
+                gameMenuView.gameMenu.setLocationRelativeTo(createAccountView.createAccount);
+                gameMenuView.gameMenu.setVisible(true);
                 createAccountView.getUsername().setText("");
                 createAccountView.getPassword().setText("");
             }
@@ -104,6 +75,7 @@ public class Controller {
             loginAccountView.getPassword().setText("");
 
             loginAccountView.loginAccount.setVisible(false);
+            createAccountView.createAccount.setLocationRelativeTo(loginAccountView.loginAccount);
             createAccountView.createAccount.setVisible(true);
         }
     }
@@ -115,6 +87,7 @@ public class Controller {
             createAccountView.getPassword().setText("");
 
             createAccountView.createAccount.setVisible(false);
+            loginAccountView.loginAccount.setLocationRelativeTo(createAccountView.createAccount);
             loginAccountView.loginAccount.setVisible(true);
         }
 
@@ -137,6 +110,14 @@ public class Controller {
                 System.out.println("You entered a username and password");
 
 
+                gameView.setPlayerName(username + ": ");
+                //gameView.setCurrency(); TODO need to get the currency from the users account on the database (make a new variable to store it)
+
+
+
+                loginAccountView.loginAccount.setVisible(false);
+                gameMenuView.gameMenu.setLocationRelativeTo(loginAccountView.loginAccount);
+                gameMenuView.gameMenu.setVisible(true);
                 loginAccountView.getUsername().setText("");
                 loginAccountView.getPassword().setText("");
 
@@ -145,5 +126,53 @@ public class Controller {
         }
     }
 
+
+    //TODO implement the functionality of these 3 functions
+    class exitActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            gameMenuView.gameMenu.setVisible(false);
+            System.exit(0);
+        }
+
+    }
+
+    class gameActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            gameMenuView.gameMenu.setVisible(false);
+            gameView.pirateGame.setLocationRelativeTo(gameMenuView.gameMenu);
+            gameView.pirateGame.setVisible(true);
+        }
+
+    }
+
+    class scoreboardActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            gameMenuView.gameMenu.setVisible(false);
+            scoreboardView.scoreboard.setLocationRelativeTo(gameMenuView.gameMenu);
+            scoreboardView.scoreboard.setVisible(true);
+        }
+
+    }
+
+    class menuActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            scoreboardView.scoreboard.setVisible(false);
+            gameMenuView.gameMenu.setLocationRelativeTo(scoreboardView.scoreboard);
+            gameMenuView.gameMenu.setVisible(true);
+        }
+    }
+
+    class menuActionListener_game implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            gameView.pirateGame.setVisible(false);
+            gameMenuView.gameMenu.setLocationRelativeTo(gameView.pirateGame);
+            gameMenuView.gameMenu.setVisible(true);
+        }
+    }
 
 }

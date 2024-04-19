@@ -10,27 +10,31 @@ public class LoginAccountView {
     protected JTextField username;
     protected JTextField password;
     private JPanel userInput;
+    private JPanel graphics;
 
     LoginAccountView(){
         loginAccount = new JFrame();
         userInput = new JPanel();
+
         loginButton = new JButton("Login");
         createAccountMenu = new JButton("Create Account Menu");
 
-        userInput.setLayout(new GridLayout(2,2));
+        userInput.setLayout(new GridLayout(3,2));
         username = new JTextField(15); //creating the text fields for the name and age
         password = new JTextField(15);
         userInput.add(new JLabel("Username:"));
         userInput.add(username);
         userInput.add(new JLabel("Password:"));
         userInput.add(password);
+        userInput.add(loginButton);
+        userInput.add(createAccountMenu);
 
-        loginAccount.add(loginButton,BorderLayout.SOUTH);
-        loginAccount.add(createAccountMenu, BorderLayout.NORTH);
+
         loginAccount.add(userInput, BorderLayout.CENTER);
 
         loginAccount.setSize(400,400);
         loginAccount.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        loginAccount.setLocationRelativeTo(null);
         loginAccount.setVisible(true);
     }
 

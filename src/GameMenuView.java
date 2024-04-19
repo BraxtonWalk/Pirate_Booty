@@ -1,41 +1,48 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class GameMenuView {
 
-    private JFrame pirateGame;
-    private JPanel betArea;
-    private JButton betButton = new JButton("bet");
-    protected JTextField betAmount = new JTextField(9);
+    protected JFrame gameMenu;
+    private JPanel buttons;
+    private JButton scoreboard;
+    private JButton game;
+    private JButton exit;
+    private JTextField pirateJoke; //maybe we will use this----------------
 
     GameMenuView(){
-        //makes frames
-        pirateGame = new JFrame();
-        betArea = new JPanel();
-        //add buttons and text boxes to frame
-        pirateGame.add(betArea,BorderLayout.SOUTH);
-        betArea.add(betButton);
-        betArea.add(betAmount);
+        gameMenu = new JFrame();
+        buttons = new JPanel();
 
-        //sets frame size and makes visible
-        pirateGame.setSize(400,400);
-        pirateGame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//closes view and client connection
+        scoreboard = new JButton("Scoreboard");
+        game = new JButton("Game");
+        exit = new JButton("Exit");
 
-        pirateGame.setVisible(false);
+        buttons.setLayout(new GridLayout(3,1));
+        buttons.add(scoreboard);
+        buttons.add(game);
+        buttons.add(exit);
 
-    }
-    void setBetButtonListener(ActionListener aL){
-        betButton.addActionListener(aL);
-    }//listener for button
+        gameMenu.add(buttons, BorderLayout.CENTER);
 
 
-
-    public String getClientText(){//gets input text from user
-
-        return betAmount.getText();
+        gameMenu.setSize(400,400);
+        gameMenu.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        gameMenu.setVisible(false);
     }
 
+
+    public void setScoreboardActionListener(ActionListener aL){
+        scoreboard.addActionListener(aL);
+    }
+
+    public void setGameActionListener(ActionListener aL){
+        game.addActionListener(aL);
+    }
+
+    public void setExitActionListener(ActionListener aL){
+        exit.addActionListener(aL);
+    }
 
 }

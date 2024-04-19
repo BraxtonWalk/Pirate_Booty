@@ -16,20 +16,21 @@ public class CreateAccountView {
     CreateAccountView(){
         createAccount = new JFrame();
         userInput = new JPanel();
+
         createButton = new JButton("Create Account");
         loginMenu = new JButton("Login Menu");
 
-        userInput.setLayout(new GridLayout(2,2));
+        userInput.setLayout(new GridLayout(3,2));
         username = new JTextField(15); //creating the text fields for the name and age
         password = new JTextField(15);
         userInput.add(new JLabel("Username:"));
         userInput.add(username);
         userInput.add(new JLabel("Password:"));
         userInput.add(password);
+        userInput.add(createButton);
+        userInput.add(loginMenu);
 
 
-        createAccount.add(createButton,BorderLayout.SOUTH);
-        createAccount.add(loginMenu, BorderLayout.NORTH);
         createAccount.add(userInput, BorderLayout.CENTER);
 
         createAccount.setSize(400,400);
