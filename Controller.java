@@ -26,6 +26,7 @@ public class Controller {
         gameMenuView.setScoreboardActionListener(new scoreboardActionListener());
         scoreboardView.setMenuActionListener(new menuActionListener());
         gameView.setMenuButtonListener(new menuActionListener_game());
+        gameView.setBetButtonListener(new betButtonActionListener());
 
     }
 
@@ -172,6 +173,31 @@ public class Controller {
             gameView.pirateGame.setVisible(false);
             gameMenuView.gameMenu.setLocationRelativeTo(gameView.pirateGame);
             gameMenuView.gameMenu.setVisible(true);
+        }
+    }
+
+    class betButtonActionListener implements ActionListener { //function for sending the data to model after bet button press
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String betAmount = gameView.getBetAmount();
+            String choice = gameView.getUserChoice().toString();
+            String headsTails = null;
+            Boolean win = false;
+
+            double random = Math.random();
+            if(random<.5){
+                headsTails = "Heads";
+            }
+            else{
+                headsTails = "Tails";
+            }
+
+            if(choice.equals(headsTails)){
+                win = true;
+            }
+
+            //TODO pass this boolean into the model so it knows whether we won or not
+
         }
     }
 
