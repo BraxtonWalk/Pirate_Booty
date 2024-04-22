@@ -1,11 +1,12 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class GameView extends User {
+public class CoinGameView {
 
 
-    protected JFrame pirateGame;
+    protected JFrame coinGame;
     private JComboBox<String> userChoice;
     private JPanel betArea;
     private JPanel playerInfo;
@@ -16,12 +17,10 @@ public class GameView extends User {
     private JTextField betAmount = new JTextField(9);
     private String[] options = {"Heads","Tails"};
 
-    Image heads = (new ImageIcon("quarter-coin-head.jpg")).getImage();
-    Image tails = (new ImageIcon("Indiana-quarter.jpg")).getImage();
 
-    GameView(){
+    CoinGameView(){
 
-        pirateGame = new JFrame();
+        coinGame = new JFrame();
         betArea = new JPanel();
         playerInfo = new JPanel();
         userChoice = new JComboBox<String>(options);
@@ -29,9 +28,9 @@ public class GameView extends User {
         playerName = new JLabel();
 
 
-        pirateGame.add(betArea,BorderLayout.SOUTH);
-        pirateGame.add(playerInfo,BorderLayout.WEST);
-        pirateGame.add(menu, BorderLayout.EAST);
+        coinGame.add(betArea,BorderLayout.SOUTH);
+        coinGame.add(playerInfo,BorderLayout.WEST);
+        coinGame.add(menu, BorderLayout.EAST);
 
 
         betArea.add(betAmount);
@@ -45,10 +44,10 @@ public class GameView extends User {
 
 
 
-        pirateGame.setSize(400,400);
-        pirateGame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//closes view and client connection
+        coinGame.setSize(400,400);
+        coinGame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//closes view and client connection
 
-        pirateGame.setVisible(false);
+        coinGame.setVisible(false);
 
     }
 
@@ -59,18 +58,14 @@ public class GameView extends User {
 
     void setMenuButtonListener(ActionListener aL) { menu.addActionListener(aL); }
 
-    void sendServCurrency(){
 
-    }
-
-    void getServCurrency(){
-
-    }
-
-    public void setPlayerName(String username){ //TODO figure out how to set this text to the player name
+    public void setPlayerName(String username){
         playerName.setText(username);
     }
-   public String getClientText(){//gets input text from user
+    public String getPlayerName(){
+        return  playerName.getText().toString();
+    }
+    public String getClientText(){//gets input text from user
 
         return betAmount.getText();
     }
@@ -78,8 +73,16 @@ public class GameView extends User {
     public String getBetAmount() {
         return betAmount.getText();
     }
+    public void setBetAmount(String amount) {
+        betAmount.setText(amount);
+    }
 
     public String getUserChoice() {
         return userChoice.getSelectedItem().toString();
+    }
+
+    public void setPlayerCurrency(String updatedAmount){playerCurrency.setText(updatedAmount);}
+    public String getPlayerCurrency(){
+        return playerCurrency.getText().toString();
     }
 }
