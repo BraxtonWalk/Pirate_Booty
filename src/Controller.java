@@ -3,6 +3,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class Controller {
@@ -172,6 +175,27 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             gameMenuView.gameMenu.setVisible(false);
             scoreboardView.scoreboard.setLocationRelativeTo(gameMenuView.gameMenu);
+
+            String fullList = model.clientUpdateList();
+
+            List<String> myList = List.of(fullList.split(","));
+            DefaultListModel<String> top3Model = new DefaultListModel<>();
+
+            for (int i = 0; i < Math.min(3, myList.size()); i++) {
+                top3Model.addElement(myList.get(i));
+            }
+
+
+            JList<String> list = new JList<>(top3Model);
+
+            ListModel<String> model = list.getModel();
+            int size = model.getSize();
+            for (int i = 0; i < size; i++) {
+                System.out.println("Element at index " + i + ": " + model.getElementAt(i));
+            }
+
+            scoreboardView.setTop3(list);
+
             scoreboardView.scoreboard.setVisible(true);
         }
 

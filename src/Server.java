@@ -43,9 +43,18 @@ public class Server {
 
 
                         String[] words = clientMSG.trim().split(" ");
-                        String userName = words[0];
-                        String passwordOrCurrency = words[1];
-                        String userAction = words[2];
+                        String userName = null;
+                        String passwordOrCurrency = null;
+                        String userAction = null;
+                        if(words.length == 3) {
+                            userName = words[0];
+                            passwordOrCurrency = words[1];
+                            userAction = words[2];
+                        }
+                        else{
+                            userAction = words[0];
+                        }
+
                         String cmd = null;
 
                         try {
@@ -73,6 +82,7 @@ public class Server {
                                     //TODO create a statement where login failed
                                 }
                                 stm.execute(cmd);
+
                             }else if(userAction.equals("createAccount")){
                                 String searchCMD = "SELECT userName FROM users;";
                                 ResultSet rs = connection.createStatement().executeQuery(searchCMD);
@@ -91,9 +101,7 @@ public class Server {
                                 }
                                 connection.close();
 
-                                if(serverMessage.equals("AccountExist")){
-
-                                }else {
+                                if(!serverMessage.equals("AccountExist")){
 
                                     connection = DriverManager.getConnection(uri);
                                     cmd = "INSERT INTO users (userName, password, currency) VALUES (?,?,?);";
@@ -103,6 +111,10 @@ public class Server {
                                     preparedStatement.setString(3, "500");
                                     preparedStatement.executeUpdate();
                                     serverMessage = String.format("%s %s 500", userName, passwordOrCurrency);
+                                }
+                                else {
+                                    JFrame error = new JFrame();
+                                    JOptionPane.showMessageDialog(error, "Username already exists, please login");
                                 }
                             }else if(userAction.equals("updateData")){
 
@@ -116,17 +128,19 @@ public class Server {
                             }
                             else if(userAction.equals("updateList")){
 
+                                System.out.println("IN LIST CHANGER!!!!");
+
                                 cmd = "SELECT userName, currency FROM users ORDER BY currency DESC;";
                                 ResultSet rs = connection.createStatement().executeQuery(cmd);
-                                stm.execute(cmd);
-
-
-                                cmd = "SELECT currency FROM users LIMIT 3;";
+                                String users = "";
                                 while (rs.next()) {
 
                                     String userNameDataBase = rs.getString("userName");
+                                    String currencyDataBase = rs.getString("currency");
                                     System.out.println(userNameDataBase);
+                                    users += (userNameDataBase + " " + currencyDataBase + ",");
                                 }
+                                serverMessage = users;
                                 stm.execute(cmd);
                             }
 

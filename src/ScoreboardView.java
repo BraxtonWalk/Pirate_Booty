@@ -1,25 +1,29 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class ScoreboardView {
 
     protected JFrame scoreboard;
-    private JPanel panel;
+    private JPanel top3panel;
+    private JPanel menuPanel;
     private JButton menu;
     private JList top3;
 
     ScoreboardView(){
         scoreboard = new JFrame();
-        panel = new JPanel();
+        top3panel = new JPanel();
+        menuPanel = new JPanel();
         menu = new JButton("Menu");
-        top3 = new JList<String>();
+        top3 = new JList();
 
-        panel.setLayout(new GridLayout(2,1));
-        panel.add(top3);
-        panel.add(menu);
 
-        scoreboard.add(panel, BorderLayout.CENTER);
+        top3panel.add(top3);
+        menuPanel.add(menu);
+
+        scoreboard.add(top3panel, BorderLayout.CENTER);
+        scoreboard.add(menuPanel, BorderLayout.SOUTH);
 
 
         scoreboard.setSize(400,400);
@@ -33,5 +37,13 @@ public class ScoreboardView {
 
     public void setTop3(JList top3) {
         this.top3 = top3;
+
+        this.top3.setFont(new Font("Arial",Font.BOLD,30));
+        top3panel.removeAll(); // Clear the existing components
+        top3panel.add(top3); // Add the new JList
+
+        // Call revalidate and repaint to update the layout
+        top3panel.revalidate();
+        top3panel.repaint();
     }
 }
