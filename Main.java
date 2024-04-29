@@ -14,10 +14,6 @@ public class Main {
     void go(){
         //makes new controller to start GUI
         Controller controller = new Controller();
-
-
     }
-
-
 }
 

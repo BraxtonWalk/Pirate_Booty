@@ -1,9 +1,12 @@
+
 import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 public class Model {
@@ -20,7 +23,8 @@ public class Model {
             chat = new Socket(IP, port);
             System.out.println("client> success");
         }catch(IOException e){
-            e.printStackTrace();
+            JFrame error = new JFrame();
+            JOptionPane.showMessageDialog(error, "Server couldn't connect, close app and try again");
         }
 
     }
@@ -31,7 +35,6 @@ public class Model {
 
             PrintWriter writer = new PrintWriter(chat.getOutputStream());
             String msg2 = String.format("Client> sent request to server: %s %s", userName, password);
-            //System.out.println(msg2);
             String clientInfo = String.format("%s %s signIn", userName, password);
             writer.println(clientInfo);
             writer.flush();
@@ -46,8 +49,9 @@ public class Model {
 
 
 
-        }catch (IOException e){
-            e.printStackTrace();
+        }catch (IOException | NullPointerException e){
+            JFrame error = new JFrame();
+            JOptionPane.showMessageDialog(error, "Couldn't connect to database, close app and try again");
         }
 
         return serverMsg;
@@ -72,10 +76,64 @@ public class Model {
 
 
 
+        }catch (IOException | NullPointerException e){
+            JFrame error = new JFrame();
+            JOptionPane.showMessageDialog(error, "Couldn't connect to database, close app and try again");
+            return null;
+        }
+
+        return serverMsg;
+    }
+    public String clientUpdateData(String userName,String amount){
+        try{
+
+
+            PrintWriter writer = new PrintWriter(chat.getOutputStream());
+            String msg2 = String.format("Client> sent request to server: %s %s", userName, amount);
+            System.out.println(msg2);
+            String clientInfo = String.format("%s %s updateData", userName, amount);
+            writer.println(clientInfo);
+            writer.flush();
+
+
+            InputStreamReader stream = new InputStreamReader(chat.getInputStream());
+            BufferedReader reader = new BufferedReader(stream);
+
+            serverMsg = reader.readLine();
+            System.out.println("Client> server response: " + serverMsg);
+
 
         }catch (IOException e){
             e.printStackTrace();
         }
+
+        return serverMsg;
+    }
+
+    public String clientUpdateList(){
+         //TODO need to add code to this so we can send the data into the server and have the server return the top 3
+        // TODO people with the highest currency in the database (server side sorts the data in descending order currently)
+
+        try {
+
+
+            PrintWriter writer = new PrintWriter(chat.getOutputStream());
+            String msg2 = "Client> sent request to server: updateList";
+            System.out.println(msg2);
+            String clientInfo = "updateList";
+            writer.println(clientInfo);
+            writer.flush();
+
+
+            InputStreamReader stream = new InputStreamReader(chat.getInputStream());
+            BufferedReader reader = new BufferedReader(stream);
+
+            serverMsg = reader.readLine();
+            System.out.println("Client> server response: " + serverMsg);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+
 
         return serverMsg;
     }
