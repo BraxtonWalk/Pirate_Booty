@@ -68,18 +68,15 @@ public class Controller {
                         createAccountView.getPassword().setText("");
                     }
                     else {
-                        createAccountView.createAccount.setVisible(false);
                         gameMenuView.gameMenu.setLocationRelativeTo(createAccountView.createAccount);
+                        createAccountView.createAccount.setVisible(false);
                         gameMenuView.gameMenu.setVisible(true);
                         createAccountView.getUsername().setText("");
                         createAccountView.getPassword().setText("");
                     }
                 }
             }
-            //TODO make sure to check if the username is already in the database so that we prompt the user
-            //TODO to create a new username since that one is already taken
         }
-
     }
 
     class createAccountMenuActionListener implements ActionListener {
@@ -88,8 +85,8 @@ public class Controller {
             loginAccountView.getUsername().setText("");
             loginAccountView.getPassword().setText("");
 
-            loginAccountView.loginAccount.setVisible(false);
             createAccountView.createAccount.setLocationRelativeTo(loginAccountView.loginAccount);
+            loginAccountView.loginAccount.setVisible(false);
             createAccountView.createAccount.setVisible(true);
         }
     }
@@ -100,8 +97,8 @@ public class Controller {
             createAccountView.getUsername().setText("");
             createAccountView.getPassword().setText("");
 
-            createAccountView.createAccount.setVisible(false);
             loginAccountView.loginAccount.setLocationRelativeTo(createAccountView.createAccount);
+            createAccountView.createAccount.setVisible(false);
             loginAccountView.loginAccount.setVisible(true);
         }
 
@@ -133,17 +130,15 @@ public class Controller {
                     diceGameView.setPlayerCurrency(playerCurrency);
 
 
-                    loginAccountView.loginAccount.setVisible(false);
                     gameMenuView.gameMenu.setLocationRelativeTo(loginAccountView.loginAccount);
+                    loginAccountView.loginAccount.setVisible(false);
                     gameMenuView.gameMenu.setVisible(true);
                     loginAccountView.getUsername().setText("");
                     loginAccountView.getPassword().setText("");
                 } catch (NullPointerException ex){
 
                 }
-
             }
-            //TODO same as the above comment for the create account
         }
     }
 
@@ -193,13 +188,6 @@ public class Controller {
 
 
             JList<String> list = new JList<>(top3Model);
-
-            ListModel<String> model = list.getModel();
-            int size = model.getSize();
-            for (int i = 0; i < size; i++) {
-                System.out.println("Element at index " + i + ": " + model.getElementAt(i));
-            }
-
             scoreboardView.setTop3(list);
 
             scoreboardView.scoreboard.setVisible(true);
@@ -324,7 +312,6 @@ public class Controller {
             String serverAccept = null;
 
             String choice = diceGameView.getUserChoice().toString();
-            System.out.println("choice: " + choice);
 
             try {
                 if (Integer.parseInt(currency) <= 0) {
