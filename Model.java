@@ -12,12 +12,11 @@ import java.util.ArrayList;
 public class Model {
     protected Socket chat;
     protected String serverMsg;
-    String IP = "127.0.0.1";//ip adress
-    int port = 5000; // port number
+    String IP = "127.0.0.1";
+    int port = 5000;
+
     Model(){
         try {
-
-
             String msg = String.format("Client> connecting to %s:%d", IP, port);
             System.out.println(msg);
             chat = new Socket(IP, port);
@@ -26,13 +25,10 @@ public class Model {
             JFrame error = new JFrame();
             JOptionPane.showMessageDialog(error, "Server couldn't connect, close app and try again");
         }
-
     }
 
     public String clientSignIn(String userName, String password){
         try{
-
-
             PrintWriter writer = new PrintWriter(chat.getOutputStream());
             String msg2 = String.format("Client> sent request to server: %s %s", userName, password);
             String clientInfo = String.format("%s %s signIn", userName, password);
@@ -45,8 +41,6 @@ public class Model {
 
             serverMsg = reader.readLine();
             System.out.println("Client> server response: " + serverMsg);
-            //TODO read servers response and then decide of user can login or tries again meow
-
 
 
         }catch (IOException | NullPointerException e){
@@ -58,8 +52,6 @@ public class Model {
     }
     public String clientCreateAccount(String userName, String password){
         try{
-
-
             PrintWriter writer = new PrintWriter(chat.getOutputStream());
             String msg2 = String.format("Client> sent request to server: %s %s", userName, password);
             System.out.println(msg2);
@@ -86,8 +78,6 @@ public class Model {
     }
     public String clientUpdateData(String userName,String amount){
         try{
-
-
             PrintWriter writer = new PrintWriter(chat.getOutputStream());
             String msg2 = String.format("Client> sent request to server: %s %s", userName, amount);
             System.out.println(msg2);
@@ -104,18 +94,15 @@ public class Model {
 
 
         }catch (IOException e){
-            e.printStackTrace();
+            JFrame error = new JFrame();
+            JOptionPane.showMessageDialog(error, "Error updating data, try again");
         }
 
         return serverMsg;
     }
 
     public String clientUpdateList(){
-         //TODO need to add code to this so we can send the data into the server and have the server return the top 3
-        // TODO people with the highest currency in the database (server side sorts the data in descending order currently)
-
         try {
-
 
             PrintWriter writer = new PrintWriter(chat.getOutputStream());
             String msg2 = "Client> sent request to server: updateList";
@@ -131,16 +118,10 @@ public class Model {
             serverMsg = reader.readLine();
             System.out.println("Client> server response: " + serverMsg);
         } catch(IOException e){
-            e.printStackTrace();
+            JFrame error = new JFrame();
+            JOptionPane.showMessageDialog(error, "Error updating list, try again");
         }
 
-
         return serverMsg;
     }
-
-    public String serverData(){
-
-        return serverMsg;
-    }
-
 }
