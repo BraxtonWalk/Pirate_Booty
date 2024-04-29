@@ -17,6 +17,7 @@ public class Controller {
     private DiceGameView diceGameView = new DiceGameView();
     private GameMenuView gameMenuView = new GameMenuView();
     private ScoreboardView scoreboardView = new ScoreboardView();
+    private BankruptView bankruptView = new BankruptView();
 
 
 
@@ -124,17 +125,27 @@ public class Controller {
                     String serverAccept = model.clientSignIn(username, password);
                     String[] words = serverAccept.split(" ");
                     String playerCurrency = words[2];
-                    System.out.println(serverAccept);
-                    System.out.println(words[1]);
-                    coinGameView.setPlayerCurrency(playerCurrency);
-                    diceGameView.setPlayerCurrency(playerCurrency);
+                    if(Integer.parseInt(playerCurrency) == 0){
+                        JFrame error = new JFrame();
+                        JOptionPane.showMessageDialog(error, "Out of money, create new account!");
+
+                        bankruptView.bankrupt.setLocationRelativeTo(loginAccountView.loginAccount);
+                        loginAccountView.loginAccount.setVisible(false);
+                        bankruptView.bankrupt.setVisible(true);
+                    }
+                    else {
+                        System.out.println(serverAccept);
+                        System.out.println(words[1]);
+                        coinGameView.setPlayerCurrency(playerCurrency);
+                        diceGameView.setPlayerCurrency(playerCurrency);
 
 
-                    gameMenuView.gameMenu.setLocationRelativeTo(loginAccountView.loginAccount);
-                    loginAccountView.loginAccount.setVisible(false);
-                    gameMenuView.gameMenu.setVisible(true);
-                    loginAccountView.getUsername().setText("");
-                    loginAccountView.getPassword().setText("");
+                        gameMenuView.gameMenu.setLocationRelativeTo(loginAccountView.loginAccount);
+                        loginAccountView.loginAccount.setVisible(false);
+                        gameMenuView.gameMenu.setVisible(true);
+                        loginAccountView.getUsername().setText("");
+                        loginAccountView.getPassword().setText("");
+                    }
                 } catch (NullPointerException ex){
 
                 }
@@ -231,6 +242,11 @@ public class Controller {
                     JFrame error = new JFrame();
                     JOptionPane.showMessageDialog(error, "Out of money, create new account!");
                     coinGameView.setBetAmount("");
+
+                    bankruptView.bankrupt.setLocationRelativeTo(coinGameView.coinGame);
+                    coinGameView.coinGame.setVisible(false);
+                    bankruptView.bankrupt.setVisible(true);
+
                 } else if (Integer.parseInt(betAmount) > Integer.parseInt(currency)) {
                     JFrame error = new JFrame();
                     JOptionPane.showMessageDialog(error, "Bet amount too large!");
@@ -318,6 +334,11 @@ public class Controller {
                     JFrame error = new JFrame();
                     JOptionPane.showMessageDialog(error, "Out of money, create new account!");
                     diceGameView.setBetAmount("");
+
+                    bankruptView.bankrupt.setLocationRelativeTo(diceGameView.diceGame);
+                    diceGameView.diceGame.setVisible(false);
+                    bankruptView.bankrupt.setVisible(true);
+
                 } else if (Integer.parseInt(betAmount) > Integer.parseInt(currency)) {
                     JFrame error = new JFrame();
                     JOptionPane.showMessageDialog(error, "Bet amount too large!");
