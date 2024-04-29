@@ -326,33 +326,50 @@ public class Controller {
             String choice = diceGameView.getUserChoice().toString();
             System.out.println("choice: " + choice);
 
-            Boolean win = false;
-            Random rand = new Random();
-            Integer number = (rand.nextInt(6) + 1); //random # between 1 and 6 (dice roll)
-            System.out.println(number);
+            try {
+                if (Integer.parseInt(currency) <= 0) {
+                    JFrame error = new JFrame();
+                    JOptionPane.showMessageDialog(error, "Out of money, create new account!");
+                    diceGameView.setBetAmount("");
+                } else if (Integer.parseInt(betAmount) > Integer.parseInt(currency)) {
+                    JFrame error = new JFrame();
+                    JOptionPane.showMessageDialog(error, "Bet amount too large!");
+                    diceGameView.setBetAmount("");
+                } else {
+
+                    Boolean win = false;
+                    Random rand = new Random();
+                    Integer number = (rand.nextInt(6) + 1); //random # between 1 and 6 (dice roll)
+                    System.out.println(number);
 
 
-            if(choice.equals(number.toString())){
-                win = true;
-                try {
-                    int winAmount = Integer.parseInt(currency) + (Integer.parseInt(betAmount) * 6);
-                    serverAccept = model.clientUpdateData(username, String.valueOf(winAmount));
-                    diceGameView.setDiceOutcome(number.toString(),"WIN");
-                } catch (NumberFormatException ex){
-                    JFrame error = new JFrame();
-                    JOptionPane.showMessageDialog(error, "Incorrect bet amount, try again");
-                    diceGameView.setBetAmount("");
+                    if (choice.equals(number.toString())) {
+                        win = true;
+                        try {
+                            int winAmount = Integer.parseInt(currency) + (Integer.parseInt(betAmount) * 6);
+                            serverAccept = model.clientUpdateData(username, String.valueOf(winAmount));
+                            diceGameView.setDiceOutcome(number.toString(), "WIN");
+                        } catch (NumberFormatException ex) {
+                            JFrame error = new JFrame();
+                            JOptionPane.showMessageDialog(error, "Incorrect bet amount, try again");
+                            diceGameView.setBetAmount("");
+                        }
+                    } else {
+                        try {
+                            int winAmount = Integer.parseInt(currency) - Integer.parseInt(betAmount);
+                            serverAccept = model.clientUpdateData(username, String.valueOf(winAmount));
+                            diceGameView.setDiceOutcome(number.toString(), "LOSE");
+                        } catch (NumberFormatException ex) {
+                            JFrame error = new JFrame();
+                            JOptionPane.showMessageDialog(error, "Incorrect bet amount, try again");
+                            diceGameView.setBetAmount("");
+                        }
+                    }
                 }
-            }else{
-                try {
-                    int winAmount = Integer.parseInt(currency) - Integer.parseInt(betAmount);
-                    serverAccept = model.clientUpdateData(username, String.valueOf(winAmount));
-                    diceGameView.setDiceOutcome(number.toString(),"LOSE");
-                } catch (NumberFormatException ex){
-                    JFrame error = new JFrame();
-                    JOptionPane.showMessageDialog(error, "Incorrect bet amount, try again");
-                    diceGameView.setBetAmount("");
-                }
+            } catch(NumberFormatException ex){
+                JFrame error = new JFrame();
+                JOptionPane.showMessageDialog(error, "Incorrect bet amount, try again");
+                diceGameView.setBetAmount("");
             }
             try {
                 String[] words = serverAccept.split(" ");
