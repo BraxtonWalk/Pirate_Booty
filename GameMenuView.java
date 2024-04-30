@@ -1,7 +1,11 @@
-
+import javax.print.attribute.standard.Media;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+
 
 public class GameMenuView {
 
@@ -12,6 +16,11 @@ public class GameMenuView {
     private JButton diceGame;
     private JButton exit;
     private Icon StartImage = new ImageIcon("MenuBoat.gif");
+
+    private String menuSong = "menuSong.wav";
+    private String cannon = "cannon.wav";
+
+
 
     private JTextField pirateJoke; //maybe we will use this----------------
 
@@ -28,6 +37,10 @@ public class GameMenuView {
         exit = new JButton("Exit");
         exit.setFont(new Font("Poor Richard",Font.BOLD,20));
 
+       PlayMusic(menuSong);
+
+
+
         buttons.setLayout(new GridLayout(1,4));
         buttons.add(scoreboard);
         buttons.add(coinGame);
@@ -41,6 +54,29 @@ public class GameMenuView {
         gameMenu.setSize(600,600);
         gameMenu.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         gameMenu.setVisible(false);
+    }
+
+    private void PlayMusic(String sound) {
+        try{
+            File musicPath = new File(sound);
+            if(musicPath.exists()){
+
+                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInput);
+                clip.start();
+                clip.loop(10);
+            }
+
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
 

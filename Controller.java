@@ -1,7 +1,10 @@
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +20,12 @@ public class Controller {
     private DiceGameView diceGameView = new DiceGameView();
     private GameMenuView gameMenuView = new GameMenuView();
     private ScoreboardView scoreboardView = new ScoreboardView();
-    private BankruptView bankruptView = new BankruptView();
+    private String cannon = "cannon.wav";
+    private String cha_Ching = "cha-ching.wav";
+    private String pirateLaugh = "pirateLaugh.wav";
+
+
+
 
 
 
@@ -43,6 +51,8 @@ public class Controller {
     class createButtonActionListener implements ActionListener { //create button action listener
         @Override
         public void actionPerformed(ActionEvent e) {
+            PlayMusic(cannon);
+
             String username = createAccountView.getUsername().getText();
             String password = createAccountView.getPassword().getText();
 
@@ -83,6 +93,8 @@ public class Controller {
     class createAccountMenuActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            PlayMusic(cannon);
+
             loginAccountView.getUsername().setText("");
             loginAccountView.getPassword().setText("");
 
@@ -95,6 +107,8 @@ public class Controller {
     class loginMenuButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            PlayMusic(cannon);
+
             createAccountView.getUsername().setText("");
             createAccountView.getPassword().setText("");
 
@@ -108,6 +122,8 @@ public class Controller {
     class loginButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            PlayMusic(cannon);
+
             String username = loginAccountView.getUsername().getText();
             String password = loginAccountView.getPassword().getText();
 
@@ -125,27 +141,17 @@ public class Controller {
                     String serverAccept = model.clientSignIn(username, password);
                     String[] words = serverAccept.split(" ");
                     String playerCurrency = words[2];
-                    if(Integer.parseInt(playerCurrency) == 0){
-                        JFrame error = new JFrame();
-                        JOptionPane.showMessageDialog(error, "Out of money, create new account!");
-
-                        bankruptView.bankrupt.setLocationRelativeTo(loginAccountView.loginAccount);
-                        loginAccountView.loginAccount.setVisible(false);
-                        bankruptView.bankrupt.setVisible(true);
-                    }
-                    else {
-                        System.out.println(serverAccept);
-                        System.out.println(words[1]);
-                        coinGameView.setPlayerCurrency(playerCurrency);
-                        diceGameView.setPlayerCurrency(playerCurrency);
+                    System.out.println(serverAccept);
+                    System.out.println(words[1]);
+                    coinGameView.setPlayerCurrency(playerCurrency);
+                    diceGameView.setPlayerCurrency(playerCurrency);
 
 
-                        gameMenuView.gameMenu.setLocationRelativeTo(loginAccountView.loginAccount);
-                        loginAccountView.loginAccount.setVisible(false);
-                        gameMenuView.gameMenu.setVisible(true);
-                        loginAccountView.getUsername().setText("");
-                        loginAccountView.getPassword().setText("");
-                    }
+                    gameMenuView.gameMenu.setLocationRelativeTo(loginAccountView.loginAccount);
+                    loginAccountView.loginAccount.setVisible(false);
+                    gameMenuView.gameMenu.setVisible(true);
+                    loginAccountView.getUsername().setText("");
+                    loginAccountView.getPassword().setText("");
                 } catch (NullPointerException ex){
 
                 }
@@ -157,6 +163,8 @@ public class Controller {
     class exitActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            PlayMusic(cannon);
+
             gameMenuView.gameMenu.setVisible(false);
             System.exit(0);
         }
@@ -166,6 +174,8 @@ public class Controller {
     class coinGameActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            PlayMusic(cannon);
+
             coinGameView.coinGame.setLocationRelativeTo(gameMenuView.gameMenu);
             gameMenuView.gameMenu.setVisible(false);
             coinGameView.coinGame.setVisible(true);
@@ -176,6 +186,8 @@ public class Controller {
     class diceGameActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            PlayMusic(cannon);
+
             diceGameView.diceGame.setLocationRelativeTo(gameMenuView.gameMenu);
             gameMenuView.gameMenu.setVisible(false);
             diceGameView.diceGame.setVisible(true);
@@ -185,6 +197,8 @@ public class Controller {
     class scoreboardActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            PlayMusic(cannon);
+
             scoreboardView.scoreboard.setLocationRelativeTo(gameMenuView.gameMenu);
             gameMenuView.gameMenu.setVisible(false);
 
@@ -209,6 +223,8 @@ public class Controller {
     class menuActionListener_scoreboard implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            PlayMusic(cannon);
+
             gameMenuView.gameMenu.setLocationRelativeTo(scoreboardView.scoreboard);
             scoreboardView.scoreboard.setVisible(false);
             gameMenuView.gameMenu.setVisible(true);
@@ -218,6 +234,8 @@ public class Controller {
     class menuActionListener_coinGame implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            PlayMusic(cannon);
+
             coinGameView.setBetAmount("");
             gameMenuView.gameMenu.setLocationRelativeTo(coinGameView.coinGame);
             coinGameView.coinGame.setVisible(false);
@@ -228,6 +246,8 @@ public class Controller {
     class betButtonActionListener_coinGame implements ActionListener { //function for sending the data to model after bet button press
         @Override
         public void actionPerformed(ActionEvent e) {
+
+
             String username = coinGameView.getPlayerName();
             String currency = coinGameView.getPlayerCurrency();
             String betAmount = coinGameView.getBetAmount();
@@ -242,11 +262,6 @@ public class Controller {
                     JFrame error = new JFrame();
                     JOptionPane.showMessageDialog(error, "Out of money, create new account!");
                     coinGameView.setBetAmount("");
-
-                    bankruptView.bankrupt.setLocationRelativeTo(coinGameView.coinGame);
-                    coinGameView.coinGame.setVisible(false);
-                    bankruptView.bankrupt.setVisible(true);
-
                 } else if (Integer.parseInt(betAmount) > Integer.parseInt(currency)) {
                     JFrame error = new JFrame();
                     JOptionPane.showMessageDialog(error, "Bet amount too large!");
@@ -264,6 +279,8 @@ public class Controller {
                     if (choice.equals(headsTails)) {
                         win = true;
                         try {
+                            PlayMusic(cha_Ching);
+
                             int winAmount = Integer.parseInt(currency) + (Integer.parseInt(betAmount)); //maybe make this * 2
                             serverAccept = model.clientUpdateData(username, String.valueOf(winAmount));
                         } catch (NumberFormatException ex) {
@@ -272,6 +289,7 @@ public class Controller {
                             coinGameView.setBetAmount("");
                         }
                     } else {
+                            PlayMusic(pirateLaugh);
                         try {
                             int winAmount = Integer.parseInt(currency) - Integer.parseInt(betAmount);
                             serverAccept = model.clientUpdateData(username, String.valueOf(winAmount));
@@ -312,6 +330,7 @@ public class Controller {
     class menuActionListener_diceGame implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            PlayMusic(cannon);
             diceGameView.setBetAmount("");
             gameMenuView.gameMenu.setLocationRelativeTo(diceGameView.diceGame);
             diceGameView.diceGame.setVisible(false);
@@ -322,6 +341,7 @@ public class Controller {
     class betButtonActionListener_diceGame implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+
             String username = diceGameView.getPlayerName();
             String currency = diceGameView.getPlayerCurrency();
             String betAmount = diceGameView.getBetAmount();
@@ -334,11 +354,6 @@ public class Controller {
                     JFrame error = new JFrame();
                     JOptionPane.showMessageDialog(error, "Out of money, create new account!");
                     diceGameView.setBetAmount("");
-
-                    bankruptView.bankrupt.setLocationRelativeTo(diceGameView.diceGame);
-                    diceGameView.diceGame.setVisible(false);
-                    bankruptView.bankrupt.setVisible(true);
-
                 } else if (Integer.parseInt(betAmount) > Integer.parseInt(currency)) {
                     JFrame error = new JFrame();
                     JOptionPane.showMessageDialog(error, "Bet amount too large!");
@@ -352,6 +367,9 @@ public class Controller {
 
 
                     if (choice.equals(number.toString())) {
+
+                        PlayMusic(cha_Ching);
+
                         win = true;
                         try {
                             int winAmount = Integer.parseInt(currency) + (Integer.parseInt(betAmount) * 6);
@@ -363,6 +381,8 @@ public class Controller {
                             diceGameView.setBetAmount("");
                         }
                     } else {
+                        PlayMusic(pirateLaugh);
+
                         try {
                             int winAmount = Integer.parseInt(currency) - Integer.parseInt(betAmount);
                             serverAccept = model.clientUpdateData(username, String.valueOf(winAmount));
@@ -388,5 +408,27 @@ public class Controller {
 
             }
         }
+    }
+    private void PlayMusic(String sound) {
+        try{
+            File musicPath = new File(sound);
+            if(musicPath.exists()){
+
+                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInput);
+                clip.start();
+
+            }
+
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 }
