@@ -1,5 +1,5 @@
 Pirate Booty
-This ia a coin flip and dice game that me and a class mate made as the final project for our Software Engineering class. It features a login and create account menu that connects to a server and database. This is a pirate themed gambling game.
+This is a coin flip and dice game that me and a class mate created as the final project for our Software Engineering class. It features a login and create account menu that connects to a server and database. This is a pirate themed gambling game.
 
 NOTE:
 We used SQLite to run the database assicoated with tracking users.
