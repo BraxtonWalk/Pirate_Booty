@@ -35,5 +35,5 @@
 
 **Braxton Walk**  
 GitHub: [BraxtonWalk](https://github.com/BraxtonWalk)  
-**Benjamin Ford**
+**Benjamin Ford**  
 GitHub: [BenFord](https://github.com/ben4ord)
