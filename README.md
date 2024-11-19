@@ -36,6 +36,6 @@
 ## Authors  
 
 **Braxton Walk**  
-GitHub: [BraxtonWalk](https://github.com/BraxtonWalk)  
+LinkedIn: [braxtonwalk](https://www.linkedin.com/in/braxtonwalk/)  
 **Benjamin Ford**  
-GitHub: [BenFord](https://github.com/ben4ord)
+LinkedIn: [ben4ord](https://www.linkedin.com/in/ben4ord/)
