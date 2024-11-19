@@ -26,7 +26,8 @@
 
 ## Technical Details  
 
-- **Database**: The game uses SQLite for storing and tracking user data, including account information and leaderboard stats.  
+- **Database**: The game uses SQLite for storing and tracking user data, including account information and leaderboard stats.
+- Must create a database file named CoinFlipUsers.db with columns "id", "userName", "password", "currency".
 - **Server-Client Architecture**: The server handles user authentication and game logic, ensuring secure and efficient interactions.  
 
 ---
